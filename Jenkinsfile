@@ -93,7 +93,7 @@ pipeline {
                 sh 'git merge ${BRANCH_NAME}'
                 // Push requires credentials
                 withCredentials([
-                    gitUsernamePassword(credentialsId: 'github_cicd_pat', gitToolName: 'Default')
+                    gitUsernamePassword(credentialsId: 'GitHub_cicd_pat', gitToolName: 'Default')
                 ]) {
                     sh 'git push origin ${INTEGRATION_BRANCH}'
                 }
