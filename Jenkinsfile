@@ -48,7 +48,7 @@ pipeline {
         always {
             junit 'build/test-results/**/*.xml'
       }
-
+    }
     }
 
     stage('Integrating Feature') {
