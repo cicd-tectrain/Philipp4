@@ -174,18 +174,26 @@ pipeline {
                 ]],
                 credentialsId: 'nexus_credentials',
                 groupId: '',
-                nexusUrl: 'nexus:8081',
+                nexusUrl: 'nexus:8081/repository/maven-snapshots',
                 nexusVersion: 'nexus3',
                 protocol: 'http',
-                repository: 'maven-snapshots',
+                repository: '',
                 version: '0.0.1-SNAPSHOT'
 
             }
         }
 
         stage('Deploy Integration branch') {
+
+        when {
+            branch 'integration'
+            beforeAgent true
+        }
+
             steps {
                 echo 'Deploying integration...'
+
+                sh 'docker info'
             }
         }
 
