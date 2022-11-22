@@ -173,8 +173,8 @@ pipeline {
                     type: 'jar'
                 ]],
                 credentialsId: 'nexus_credentials',
-                groupId: 'xx',
-                nexusUrl: 'nexus:8081/repository/maven-snapshots',
+                groupId: '',
+                nexusUrl: 'nexus:8081',
                 nexusVersion: 'nexus3',
                 protocol: 'http',
                 repository: 'maven-snapshots',
