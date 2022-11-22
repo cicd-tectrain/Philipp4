@@ -40,6 +40,8 @@ pipeline {
       steps {
         echo 'Testing feature'
         sh 'gradle test'
+        sh 'ls -la build/test-result/test'
+        sh 'ls -la build/reports/tests/test'
       }
     }
 
