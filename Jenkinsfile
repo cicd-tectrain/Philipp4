@@ -43,6 +43,12 @@ pipeline {
         sh 'ls -la build/test-results/test'
         sh 'ls -la build/reports/tests/test'
       }
+
+      post {
+        always {
+            junit 'build/test-results/**/*.xml'
+      }
+
     }
 
     stage('Integrating Feature') {
