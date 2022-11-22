@@ -150,8 +150,28 @@ pipeline {
         }
 
         stage('Publish artifacts') {
+
+        when {
+        branch 'integration'
+        beforeAgent true
+        }
+
+
             steps {
                 echo 'Publishing artifacts...'
+
+                nexusArtifactUploader artifacts: [[
+                artifactId: 'at.tectrain.cicd',
+                classifier: '', file: 'demo-0.0.1-SNAPSHOT.jar',
+                type: 'jar'
+                ]],
+                credentialsId: '',
+                groupId: 'a',
+                nexusUrl: 'nexus:8081',
+                nexusVersion: 'nexus3',
+                protocol: 'http',
+                repository: 'maven-snapshots',
+                version: '0.0.1-SNAPSHOT'
             }
         }
 
@@ -183,3 +203,5 @@ pipeline {
 
 
 }
+
+
