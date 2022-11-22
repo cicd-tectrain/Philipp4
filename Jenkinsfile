@@ -9,10 +9,11 @@ pipeline {
      }
 
     stage {
-        echo "${BRANCH_NAME}"
-        echo "Integration branch: %{INTEGRATION_BRANCH}"
+        steps {
+            echo "${BRANCH_NAME}"
+            echo "Integration branch: %{INTEGRATION_BRANCH}"
+        }
     }
-
 
     stages {
         stage('Build Feature') {
