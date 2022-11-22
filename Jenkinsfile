@@ -7,15 +7,16 @@ pipeline {
             branch 'feature/*'
             beforeAgent true
       }
+
+      agent {
+          docker {
+              image 'gradle:7.5.1-jdk17-focal'
+        }
+      }
+
       steps {
         echo 'Build'
       }
-    }
-
-    agent {
-    docker {
-    image 'gradle:7.5.1-jdk17-focal'
-    }
     }
 
     stage('Test') {
