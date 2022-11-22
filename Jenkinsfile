@@ -92,7 +92,7 @@ pipeline {
                 sh 'git merge feature/feature-1'
                 // Push requires credentials
                 withCredentials([
-                    gitUsernamePassword(credentialsId: 'github_cicd_pat', gitToolName: 'Default')
+                    gitUsernamePassword(credentialsId: 'GitHub_cicd_pat', gitToolName: 'Default')
                 ]) {
                     sh 'git push origin integration'
                 }
