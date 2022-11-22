@@ -87,9 +87,9 @@ pipeline {
                 echo 'Integrating feature'
                 sh 'ls -la'
                 sh 'git branch -a'
-                sh 'git checkout feature/feature-1'
-                sh 'git checkout integration'
-                sh 'git merge feature/feature-1'
+                sh 'git checkout ${BRANCH_NAME}'
+                sh 'git checkout ${INTEGRATION_BRANCH}'
+                sh 'git merge ${BRANCH_NAME}'
                 // Push requires credentials
                 withCredentials([
                     gitUsernamePassword(credentialsId: 'GitHub_cicd_pat', gitToolName: 'Default')
