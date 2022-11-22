@@ -14,7 +14,7 @@ pipeline {
 
     agent {
     docker {
-    image '7.5.1-jdk17-focal' }
+    image 'gradle:7.5.1-jdk17-focal' }
     }
     }
 
