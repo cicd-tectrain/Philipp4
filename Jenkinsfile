@@ -150,28 +150,36 @@ pipeline {
         }
 
         stage('Publish artifacts') {
+            when {
+                branch 'integration'
+                beforeAgent true
+            }
 
-        when {
-        branch 'integration'
-        beforeAgent true
-        }
-
+            agent {
+                docker {
+                    image 'gradle:7.5.1-jdk17-focal'
+                }
+            }
 
             steps {
                 echo 'Publishing artifacts...'
+                sh 'ls -la'
 
+                // Upload .jar file to Nexus Maven repository
                 nexusArtifactUploader artifacts: [[
-                artifactId: 'at.tectrain.cicd',
-                classifier: '', file: 'demo-0.0.1-SNAPSHOT.jar',
-                type: 'jar'
+                    artifactId: 'at.tectrain.cicd',
+                    classifier: '',
+                    file: 'demo-0.0.1-SNAPSHOT.jar',
+                    type: 'jar'
                 ]],
                 credentialsId: '',
-                groupId: 'a',
+                groupId: 'xx',
                 nexusUrl: 'nexus:8081',
                 nexusVersion: 'nexus3',
                 protocol: 'http',
                 repository: 'maven-snapshots',
                 version: '0.0.1-SNAPSHOT'
+
             }
         }
 
@@ -203,5 +211,3 @@ pipeline {
 
 
 }
-
-
