@@ -94,7 +94,7 @@ pipeline {
                 withCredentials([
                     gitUsernamePassword(credentialsId: 'GitHub_cicd_pat', gitToolName: 'Default')
                 ]) {
-                    sh 'git push origin integration'
+                    sh 'git push origin ${INTEGRATION_BRANCH}'
                 }
 
             }
