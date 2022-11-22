@@ -19,8 +19,7 @@ pipeline {
 
       steps {
         echo 'Building feature'
-        sh 'ls -la'
-        sh 'gradle build -x test'
+        sh 'gradle clean build -x test'
       }
     }
 
