@@ -1,43 +1,46 @@
 pipeline {
   agent any
   stages {
-    stage('Build Feature') {
-
+    stage('Building Feature') {
       when {
-            branch 'feature/*'
-            beforeAgent true
-      }
+              branch 'feature/*'
+              beforeAgent true
+            }
 
+      //Agent overwrite and run in a docker container
       agent {
-          docker {
-              image 'gradle:7.5.1-jdk17-focal'
+        docker {
+            image 'gradle:7.5.1-jdk17-focal'
         }
       }
 
+
       steps {
-        echo 'Build'
+        echo 'Building feature'
       }
     }
 
-    stage('Test') {
-        when {
-             branch 'feature/*'
-             beforeAgent true
-        }
+    stage('Testing Feature') {
+      when {
+              branch 'feature/*'
+              beforeAgent true
+            }
+
       steps {
-        echo 'Testing'
+        echo 'Testing feature'
       }
     }
 
-    stage('Integration') {
-       when {
-          branch 'feature/*'
-          beforeAgent true
-       }
+    stage('Integrating Feature') {
+      when {
+        branch 'feature/*'
+        beforeAgent true
+      }
+
       steps {
-        echo 'Integrating'
+        echo 'Integrating feature'
       }
     }
+
   }
 }
-
