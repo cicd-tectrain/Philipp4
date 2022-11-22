@@ -7,6 +7,7 @@ pipeline {
     // Define global Environment
     environment {
         INTEGRATION_BRANCH = 'integration'
+        PRODUCTION_BRANCH = 'master'
     }
 
     stages {
@@ -92,16 +93,16 @@ pipeline {
                 sh 'git merge ${BRANCH_NAME}'
                 // Push requires credentials
                 withCredentials([
-                    gitUsernamePassword(credentialsId: 'GitHub_cicd_pat', gitToolName: 'Default')
+                    gitUsernamePassword(credentialsId: 'github_cicd_pat', gitToolName: 'Default')
                 ]) {
                     sh 'git push origin ${INTEGRATION_BRANCH}'
                 }
-                //asdf
 
             }
         }
 
         // ======= Integration Stages =======
+
         stage('Build Integration branch') {
 
             when {
@@ -117,12 +118,40 @@ pipeline {
 
             steps {
                 echo 'Building integration...'
+                sh 'gradle clean build -x test'
             }
         }
 
         stage('Test Integration branch') {
+
+            when {
+                branch 'integration'
+                beforeAgent true
+            }
+
+            agent {
+                docker {
+                    image 'gradle:7.5.1-jdk17-focal'
+                }
+            }
+
             steps {
                 echo 'Testing integration...'
+                sh 'gradle test'
+            }
+
+            post {
+                always {
+                    // Collect JUnit test results
+                    junit 'build/test-results/**/*.xml'
+                }
+            }
+
+        }
+
+        stage('Publish artifacts') {
+            steps {
+                echo 'Publishing artifacts...'
             }
         }
 
@@ -132,6 +161,23 @@ pipeline {
             }
         }
 
+        stage('Merge integration into master') {
+            steps {
+                echo 'Merge into master'
+                sh 'ls -la'
+                sh 'git branch -a'
+                sh 'git checkout ${BRANCH_NAME}'
+                sh 'git checkout ${PRODUCTION_BRANCH}'
+                sh 'git merge ${BRANCH_NAME}'
+                // Push requires credentials
+                withCredentials([
+                    gitUsernamePassword(credentialsId: 'GitHub_cicd_pat', gitToolName: 'Default')
+                ]) {
+                    sh 'git push origin ${PRODUCTION_BRANCH}'
+                }
+
+            }
+        }
 
     }
 
