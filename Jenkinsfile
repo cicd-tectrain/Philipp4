@@ -119,12 +119,12 @@ pipeline {
             steps {
                 echo 'Building integration...'
                 sh 'gradle clean build -x test'
-
+                sh 'ls -la'
             }
 
             post {
                 success {
-                    stash includes: 'build', name: 'build'
+                    stash includes: 'build/*', name: 'build'
                 }
             }
         }
