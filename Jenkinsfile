@@ -216,6 +216,8 @@ pipeline {
                 sh 'echo $NEXUS_PSW | docker login --username $NEXUS_USR --password-stdin nexus:5000'
 
                 sh 'docker compose push testing'
+
+                sh 'docker compose up -d --force recreate testing'
             }
 
             // Post: Logout Docker
