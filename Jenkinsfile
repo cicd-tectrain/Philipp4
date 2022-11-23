@@ -119,6 +119,13 @@ pipeline {
             steps {
                 echo 'Building integration...'
                 sh 'gradle clean build -x test'
+
+            }
+
+            post {
+                success {
+                    stash includes: 'build', name: 'build'
+                }
             }
         }
 
@@ -197,6 +204,7 @@ pipeline {
             steps {
                 echo 'Deploying integration...'
 
+                unstash 'build'
                 sh 'ls -la build'
 
                 sh 'docker info'
