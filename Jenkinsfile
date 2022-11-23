@@ -194,6 +194,8 @@ pipeline {
                 echo 'Deploying integration...'
 
                 sh 'docker info'
+
+                sh 'docker compose version'
             }
         }
 
