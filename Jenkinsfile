@@ -88,7 +88,7 @@ pipeline {
         // ====== Integration Stages ======
         stage('Build integration branch') {
             when {
-                branch 'intergration'
+                branch 'integration'
                 beforeAgent true
             }
 
