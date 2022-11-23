@@ -124,7 +124,7 @@ pipeline {
 
             post {
                 success {
-                    stash includes: 'build/*', name: 'build'
+                    stash includes: 'build/', name: 'build'
                 }
             }
         }
