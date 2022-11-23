@@ -119,6 +119,13 @@ pipeline {
             steps {
                 echo 'Building integration...'
                 sh 'gradle clean build -x test'
+                sh 'ls -la'
+            }
+
+            post {
+                success {
+                    stash includes: 'build/', name: 'build'
+                }
             }
         }
 
@@ -190,10 +197,35 @@ pipeline {
             beforeAgent true
         }
 
+            environment {
+                NEXUS = credentials('nexus_credentials')
+            }
+
             steps {
                 echo 'Deploying integration...'
 
+                unstash 'build'
+                sh 'ls -la build'
+
                 sh 'docker info'
+                sh 'docker compose version'
+                sh 'docker compose config'
+
+                sh 'docker compose build testing'
+
+                sh 'echo $NEXUS_PSW | docker login --username $NEXUS_USR --password-stdin nexus:5000'
+
+                sh 'docker compose push testing'
+
+                sh 'docker compose up -d --force-recreate testing'
+            }
+
+            // Post: Logout Docker
+            post {
+                always {
+                    sh 'docker logout nexus:5000'
+                    //delete /var/jenkins_home/.docker/config.json
+                }
             }
         }
 
