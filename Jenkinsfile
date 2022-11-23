@@ -213,7 +213,7 @@ pipeline {
 
                 sh 'docker compose build testing'
 
-                sh 'docker login --user $NEXUS_USR --password $NEXUS_PSW nexus:5000'
+                sh 'docker login --username $NEXUS_USR --password $NEXUS_PSW nexus:5000'
             }
 
             // Post: Logout Docker
