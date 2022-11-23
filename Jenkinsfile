@@ -213,11 +213,18 @@ pipeline {
 
                 sh 'docker compose build testing'
 
-                sh 'docker login --username $NEXUS_USR --password $NEXUS_PSW nexus:5000'
+                sh 'echo $NEXUS_PSW | docker login --username $NEXUS_USR --password-stdin nexus:5000'
+
+                sh 'docker compose push testing'
             }
 
             // Post: Logout Docker
-
+            post {
+                always {
+                    sh 'docker logout nexus:5000'
+                    //delete /var/jenkins_home/.docker/config.json
+                }
+            }
         }
 
         stage('Merge integration into master') {
