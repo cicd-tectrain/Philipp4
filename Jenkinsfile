@@ -217,7 +217,7 @@ pipeline {
 
                 sh 'docker compose push testing'
 
-                sh 'docker compose up -d --force recreate testing'
+                sh 'docker compose up -d --force -recreate testing'
             }
 
             // Post: Logout Docker
